@@ -4,7 +4,7 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/qiangxue/go-env"
 	"github.com/rs/zerolog/log"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 	"io/ioutil"
 )
 
