@@ -2,10 +2,11 @@ package httpd
 
 import (
 	"context"
+	"entgo.io/ent/dialect/sql"
 	"fmt"
 	"github.com/forecho/go-rest-api/ent"
 	"github.com/forecho/go-rest-api/internal/config"
-	handlers2 "github.com/forecho/go-rest-api/internal/handlers"
+	"github.com/forecho/go-rest-api/internal/handlers"
 	"github.com/forecho/go-rest-api/internal/httpd/middleware"
 	_ "github.com/forecho/go-rest-api/pkg/auto"
 	"github.com/forecho/go-rest-api/pkg/logging"
@@ -23,19 +24,45 @@ func Init(cfg *config.Config) {
 		log.Fatal().Msgf("Error initializing logger: '%v'", err)
 	}
 
-	// connect to the database
-	db, err := ent.Open("mysql", cfg.DSN)
+	db := initDb(cfg)
+	handlers.NewHandler(db)
+
+	Start(cfg)
+}
+
+func initDb(cfg *config.Config) *ent.Client {
+	drv, err := sql.Open("mysql", cfg.DSN)
 	if err != nil {
-		log.Error().Err(err)
+		log.Error().Msgf("failed opening to mysql: '%v'", err)
 		os.Exit(-1)
 	}
+	// Get the underlying sql.DB object of the driver.
+	db := drv.DB()
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+	db.SetConnMaxLifetime(time.Hour)
+
+	err = db.Ping()
+	if err != nil {
+		log.Error().Msgf("failed connection to mysql: '%v'", err)
+		os.Exit(-1)
+	}
+
+	conn := ent.NewClient(ent.Driver(drv))
+
 	defer func() {
-		if err := db.Close(); err != nil {
+		if err := conn.Close(); err != nil {
 			log.Error().Err(err)
 		}
 	}()
 
-	Start(cfg)
+	ctx := context.Background()
+	if err := conn.Schema.Create(ctx); err != nil {
+		log.Error().Err(err)
+		return nil
+	}
+	log.Info().Msgf("DB Schema was created")
+	return conn
 }
 
 // Start starts the echo HTTP server
@@ -43,7 +70,7 @@ func Start(cfg *config.Config) {
 	e := echo.New()
 
 	middleware.Register(e)
-	handlers2.Register(e)
+	handlers.Register(e)
 
 	// Start server
 	go func() {

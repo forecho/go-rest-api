@@ -1,12 +1,19 @@
 package handlers
 
 import (
+	"github.com/forecho/go-rest-api/ent"
 	"github.com/forecho/go-rest-api/internal/httpd/router"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
 
-type Handler struct{}
+type Handler struct {
+	db *ent.Client
+}
+
+func NewHandler(client *ent.Client) *Handler {
+	return &Handler{db: client}
+}
 
 var handler Handler
 
@@ -22,6 +29,6 @@ func Register(e *echo.Echo) *Handler {
 var Router = &router.Router{
 	Routes: []router.Route{
 		{"Welcome", http.MethodGet, "/", handler.Welcome},
-		//{"Healthz", http.MethodGet, "/healthz", handler.Healthz}},
+		{"Create User", http.MethodPost, "/users", handler.CreateUser},
 	},
 }
