@@ -6,6 +6,7 @@ import (
 	"github.com/forecho/go-rest-api/internal/responses"
 	"github.com/forecho/go-rest-api/internal/services/token"
 	"github.com/labstack/echo/v4"
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
@@ -29,7 +30,7 @@ func (h *Handler) Login(c echo.Context) error {
 	}
 
 	u := repositories.NewRepository(h.server.DB).GetUserByEmail(request.Email)
-	h.server.Echo.Logger.Infof("1111111111: %v", u)
+	h.server.Echo.Logger.Infof("1111111111: %v, %v", h.server.Config, viper.GetString("log_level"))
 	if u == nil || (bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(request.Password)) != nil) {
 		return responses.ErrorResponse(c, http.StatusUnauthorized, "Invalid credentials")
 	}

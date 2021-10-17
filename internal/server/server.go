@@ -62,7 +62,7 @@ func (s *Server) Start() {
 
 //
 //func Init(cfg *mysql.Config) {
-//	err := logging.Init(cfg)
+//	err := logger.Init(cfg)
 //	if err != nil {
 //		log.Fatal().Msgf("Error initializing logger: '%v'", err)
 //	}

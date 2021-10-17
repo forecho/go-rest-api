@@ -5,6 +5,7 @@ go 1.16
 require (
 	entgo.io/ent v0.9.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-openapi/spec v0.20.4 // indirect
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/go-playground/validator/v10 v10.9.0
@@ -16,6 +17,7 @@ require (
 	github.com/mattn/go-colorable v0.1.11 // indirect
 	github.com/qiangxue/go-env v1.0.1
 	github.com/rs/zerolog v1.25.0
+	github.com/spf13/viper v1.9.0 // indirect
 	github.com/swaggo/echo-swagger v1.1.4
 	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2 // indirect
 	github.com/swaggo/swag v1.7.3

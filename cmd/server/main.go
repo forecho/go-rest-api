@@ -1,15 +1,13 @@
 package main
 
 import (
-	"flag"
 	"github.com/forecho/go-rest-api/internal/config"
 	"github.com/forecho/go-rest-api/internal/server"
 	"github.com/forecho/go-rest-api/internal/server/routes"
+	"github.com/forecho/go-rest-api/pkg/logger"
 	"github.com/rs/zerolog/log"
 	"os"
 )
-
-var flagConfig = flag.String("mysql", "./config/local.yml", "path to the mysql file")
 
 // @title Echo Demo App
 // @version 1.0
@@ -25,12 +23,16 @@ var flagConfig = flag.String("mysql", "./config/local.yml", "path to the mysql f
 
 // @BasePath /
 func main() {
-	flag.Parse()
 	//// load application configurations
-	cfg, err := config.Load(*flagConfig)
+	cfg, err := config.Load()
 	if err != nil {
 		log.Error().Msgf("failed to load application configuration: %s", err)
 		os.Exit(-1)
+	}
+
+	if err = logger.Init(cfg); err != nil {
+		log.Fatal().Msgf("Error initializing logger: '%v'", err)
+		return
 	}
 
 	// build HTTP server

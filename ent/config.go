@@ -14,9 +14,9 @@ type Option func(*config)
 type config struct {
 	// driver used for executing database requests.
 	driver dialect.Driver
-	// debug enable a debug logging.
+	// debug enable a debug logger.
 	debug bool
-	// log used for logging on debug mode.
+	// log used for logger on debug mode.
 	log func(...interface{})
 	// hooks to execute on mutations.
 	hooks *hooks
@@ -37,14 +37,14 @@ func (c *config) options(opts ...Option) {
 	}
 }
 
-// Debug enables debug logging on the ent.Driver.
+// Debug enables debug logger on the ent.Driver.
 func Debug() Option {
 	return func(c *config) {
 		c.debug = true
 	}
 }
 
-// Log sets the logging function for debug mode.
+// Log sets the logger function for debug mode.
 func Log(fn func(...interface{})) Option {
 	return func(c *config) {
 		c.log = fn

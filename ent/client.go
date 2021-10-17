@@ -92,7 +92,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	}, nil
 }
 
-// Debug returns a new debug-client. It's used to get verbose logging on specific operations.
+// Debug returns a new debug-client. It's used to get verbose logger on specific operations.
 //
 //	client.Debug().
 //		User.
