@@ -2,6 +2,10 @@
 
 package user
 
+import (
+	"time"
+)
+
 const (
 	// Label holds the string label denoting the user type in the database.
 	Label = "user"
@@ -9,8 +13,12 @@ const (
 	FieldID = "id"
 	// FieldUsername holds the string denoting the username field in the database.
 	FieldUsername = "username"
+	// FieldEmail holds the string denoting the email field in the database.
+	FieldEmail = "email"
 	// FieldPassword holds the string denoting the password field in the database.
 	FieldPassword = "password"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -19,7 +27,9 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldUsername,
+	FieldEmail,
 	FieldPassword,
+	FieldCreatedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -33,6 +43,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultUsername holds the default value on creation for the "username" field.
-	DefaultUsername string
+	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	DefaultCreatedAt func() time.Time
 )

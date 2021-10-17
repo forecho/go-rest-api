@@ -10,12 +10,12 @@ import (
 
 var (
 	DefaultConfig = Config{
-		ServerPort:         8080,
-		JWTExpirationHours: 72,
-		GracefulTimeout:    50,
-		LogLevel:           "info",
-		LogOutput:          "stdout",
-		LogWriter:          "json",
+		ServerPort:      8080,
+		JWTExpiration:   72,
+		GracefulTimeout: 50,
+		LogLevel:        "info",
+		LogOutput:       "stdout",
+		LogWriter:       "json",
 	}
 )
 
@@ -28,7 +28,7 @@ type Config struct {
 	// JWT signing key. required.
 	JWTSigningKey string `yaml:"jwt_signing_key" env:"JWT_SIGNING_KEY,secret"`
 	// JWT expiration in hours. Defaults to 72 hours (3 days)
-	JWTExpirationHours int `yaml:"jwt_expiration_hours" env:"JWT_EXPIRATION_HOURS"`
+	JWTExpiration int `yaml:"jwt_expiration" env:"JWT_EXPIRATION"`
 	// Graceful Timeout. defaults to 5 Second
 	GracefulTimeout int `yaml:"graceful_timeout" env:"GRACEFUL_TIMEOUT"`
 	// Log Level
@@ -49,10 +49,10 @@ func (c Config) Validate() error {
 
 // Load returns an application configuration which is populated from the given configuration file and environment variables.
 func Load(file string) (*Config, error) {
-	// default config
+	// default mysql
 	c := DefaultConfig
 
-	// load from YAML config file
+	// load from YAML mysql file
 	bytes, err := ioutil.ReadFile(file)
 	if err != nil {
 		return nil, err

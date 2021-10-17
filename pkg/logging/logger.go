@@ -11,7 +11,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Init initializes the logger based on the config
+// Init initializes the logger based on the mysql
 func Init(config *config.Config) error {
 	logLevel := strings.ToLower(config.LogLevel)
 	logOutput := strings.ToLower(config.LogOutput)

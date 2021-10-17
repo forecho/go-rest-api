@@ -19,6 +19,7 @@ func Register(e *echo.Echo) {
 		},
 	}))
 
+	e.Use(middleware.CORS())
 	//if viper.GetBool("cors-enabled") {
 	//	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 	//		AllowOrigins:     viper.GetStringSlice("cors-allow-origins"),
@@ -31,6 +32,7 @@ func Register(e *echo.Echo) {
 	//}
 
 	//if !viper.GetBool("log-requests-disabled") {
+	//e.Use(middleware.Logger())
 	logger := lecho.New(
 		os.Stdout,
 		lecho.WithTimestamp(),

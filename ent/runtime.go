@@ -3,6 +3,8 @@
 package ent
 
 import (
+	"time"
+
 	"github.com/forecho/go-rest-api/ent/schema"
 	"github.com/forecho/go-rest-api/ent/user"
 )
@@ -13,8 +15,8 @@ import (
 func init() {
 	userFields := schema.User{}.Fields()
 	_ = userFields
-	// userDescUsername is the schema descriptor for username field.
-	userDescUsername := userFields[0].Descriptor()
-	// user.DefaultUsername holds the default value on creation for the username field.
-	user.DefaultUsername = userDescUsername.Default.(string)
+	// userDescCreatedAt is the schema descriptor for created_at field.
+	userDescCreatedAt := userFields[3].Descriptor()
+	// user.DefaultCreatedAt holds the default value on creation for the created_at field.
+	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
 }
