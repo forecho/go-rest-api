@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/forecho/go-rest-api/pkg/path"
 	"github.com/fsnotify/fsnotify"
 	"github.com/go-playground/validator/v10"
 	"github.com/rs/zerolog/log"
@@ -41,7 +42,10 @@ type Config struct {
 var v *viper.Viper
 
 func init() {
+	p := path.RootPath()
+
 	v = viper.New()
+	v.AddConfigPath(p + "/")
 	v.AutomaticEnv()
 	v.SetConfigName(".env") // 配置文件名
 	v.SetConfigType("env")  // 配置文件类型，例如:toml、yaml等
@@ -76,4 +80,8 @@ func Load() (cfg *Config, err error) {
 		return
 	}
 	return
+}
+
+func GetString(key string) string {
+	return v.GetString(key)
 }

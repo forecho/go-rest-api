@@ -4,10 +4,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/labstack/gommon/log"
-	"github.com/rs/zerolog"
-	"github.com/ziflex/lecho/v2"
-	"os"
 )
 
 // Register middleware with echo
@@ -32,16 +28,16 @@ func Register(e *echo.Echo) {
 	//}
 
 	//if !viper.GetBool("log-requests-disabled") {
-	//e.Use(middleware.Logger())
-	logger := lecho.New(
-		os.Stdout,
-		lecho.WithTimestamp(),
-		lecho.WithLevel(log.INFO),
-		lecho.WithCallerWithSkipFrameCount(zerolog.CallerSkipFrameCount+1),
-	)
-	e.Logger = logger
-	e.Use(lecho.Middleware(lecho.Config{
-		Logger: logger,
-	}))
+	e.Use(Logger())
+	//logger := lecho.New(
+	//	os.Stdout,
+	//	lecho.WithTimestamp(),
+	//	lecho.WithLevel(log.INFO),
+	//	lecho.WithCallerWithSkipFrameCount(zerolog.CallerSkipFrameCount+1),
+	//)
+	//e.Logger = logger
+	//e.Use(lecho.Middleware(lecho.Config{
+	//	Logger: logger,
+	//}))
 
 }

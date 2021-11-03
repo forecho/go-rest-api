@@ -4,7 +4,6 @@ import (
 	"github.com/forecho/go-rest-api/internal/config"
 	"github.com/forecho/go-rest-api/internal/server"
 	"github.com/forecho/go-rest-api/internal/server/routes"
-	"github.com/forecho/go-rest-api/pkg/logger"
 	"github.com/rs/zerolog/log"
 	"os"
 )
@@ -30,10 +29,10 @@ func main() {
 		os.Exit(-1)
 	}
 
-	if err = logger.Init(cfg); err != nil {
-		log.Fatal().Msgf("Error initializing logger: '%v'", err)
-		return
-	}
+	//if err = logger.Init(cfg); err != nil {
+	//	log.Fatal().Msgf("Error initializing logger: '%v'", err)
+	//	return
+	//}
 
 	// build HTTP server
 	app := server.NewServer(cfg).CustomConfig()
