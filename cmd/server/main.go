@@ -4,7 +4,7 @@ import (
 	"github.com/forecho/go-rest-api/internal/config"
 	"github.com/forecho/go-rest-api/internal/server"
 	"github.com/forecho/go-rest-api/internal/server/routes"
-	"github.com/rs/zerolog/log"
+	"github.com/forecho/go-rest-api/pkg/logger"
 	"os"
 )
 
@@ -25,7 +25,7 @@ func main() {
 	//// load application configurations
 	cfg, err := config.Load()
 	if err != nil {
-		log.Error().Msgf("failed to load application configuration: %s", err)
+		logger.Ins.Errorf("failed to load application configuration: %v", err)
 		os.Exit(-1)
 	}
 

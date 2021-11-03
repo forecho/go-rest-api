@@ -5,7 +5,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/forecho/go-rest-api/ent"
 	"github.com/forecho/go-rest-api/internal/config"
-	"github.com/rs/zerolog/log"
+	"github.com/forecho/go-rest-api/pkg/logger"
 	"os"
 	"time"
 )
@@ -14,7 +14,7 @@ func Init(cfg *config.Config) *ent.Client {
 
 	drv, err := sql.Open("mysql", cfg.DSN)
 	if err != nil {
-		log.Error().Msgf("failed opening to mysql: '%v'", err)
+		logger.Ins.Errorf("failed opening to mysql: '%v'", err)
 		os.Exit(-1)
 	}
 	// Get the underlying sql.DB object of the driver.
@@ -25,7 +25,7 @@ func Init(cfg *config.Config) *ent.Client {
 
 	err = db.Ping()
 	if err != nil {
-		log.Error().Msgf("failed connection to mysql: '%v'", err)
+		logger.Ins.Errorf("failed connection to mysql: '%v'", err)
 		os.Exit(-1)
 	}
 
@@ -33,15 +33,15 @@ func Init(cfg *config.Config) *ent.Client {
 
 	defer func() {
 		if err := conn.Close(); err != nil {
-			log.Error().Err(err)
+			logger.Ins.Errorf("failed close to mysql: '%v'", err)
 		}
 	}()
 
 	ctx := context.Background()
 	if err := conn.Schema.Create(ctx); err != nil {
-		log.Error().Err(err)
+		logger.Ins.Errorf("failed create schema to mysql: '%v'", err)
 		return nil
 	}
-	log.Info().Msgf("DB Schema was created")
+	logger.Ins.Info("DB Schema was created")
 	return conn
 }

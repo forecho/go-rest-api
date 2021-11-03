@@ -1,10 +1,10 @@
 package config
 
 import (
+	"github.com/forecho/go-rest-api/pkg/logger"
 	"github.com/forecho/go-rest-api/pkg/path"
 	"github.com/fsnotify/fsnotify"
 	"github.com/go-playground/validator/v10"
-	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 )
 
@@ -57,7 +57,7 @@ func Load() (cfg *Config, err error) {
 	cfg = &DefaultConfig
 
 	if err = v.ReadInConfig(); err != nil {
-		log.Error().Msgf("Failed to read config:", err)
+		logger.Ins.Errorf("Failed to read config:%v", err)
 		return
 	}
 
@@ -68,7 +68,7 @@ func Load() (cfg *Config, err error) {
 	// 监控配置文件变化
 	v.OnConfigChange(func(e fsnotify.Event) {
 		if err = v.Unmarshal(&cfg); err != nil {
-			log.Error().Msgf("Failed to reload config:", err)
+			logger.Ins.Errorf("Failed to reload config:%v", err)
 		}
 		return
 	})
